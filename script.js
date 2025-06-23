@@ -1,19 +1,30 @@
 let familieData = {}; // Globale variabele om data op te slaan
 let gebruikers = {};
 
-// Functie om JSON data te laden (voorbeeld)
-async function laadData() {
+// Functie om data te laden van localStorage
+function laadData() {
     try {
-        // Haal data op van de server (of een lokaal bestand)
-        // Vervang dit met de juiste URL of bestandspad
-        const response = await fetch('familie_data.json');
-        familieData = await response.json();
+        const storedData = localStorage.getItem('familieData');
+        if (storedData) {
+            familieData = JSON.parse(storedData);
+        } else {
+            familieData = {};
+        }
     } catch (error) {
-        console.error("Fout bij het laden van data:", error);
-        alert("Fout bij het laden van data.  Zorg ervoor dat familie_data.json bestaat en correct is.");
-        familieData = {}; // Initialiseer als een lege object bij fout
+        console.error("Fout bij het laden van data uit localStorage:", error);
+        familieData = {};
     }
     verversData(); // Update de weergave
+}
+
+// Functie om data op te slaan in localStorage
+function opslaanData() {
+    try {
+        localStorage.setItem('familieData', JSON.stringify(familieData));
+    } catch (error) {
+        console.error("Fout bij het opslaan van data in localStorage:", error);
+        alert("Fout bij het opslaan van data in localStorage.  Data wordt mogelijk niet bewaard.");
+    }
 }
 
 async function laadGebruikers() {
@@ -116,9 +127,8 @@ function toevoegenLid() {
         partner_id: partner_id
     };
 
-    // Hier moet je de data naar een server opslaan (of lokaal met FileSystem API)
-    // Voor dit voorbeeld laten we het even achterwege, omdat het complexer is
-    alert('Lid toegevoegd! (Let op: de data wordt niet permanent opgeslagen in deze demo)');
+    opslaanData(); // Sla de data op in localStorage
+    alert('Lid toegevoegd!');
     verversData(); // Update de weergave
 
     // Reset formulier
@@ -199,12 +209,10 @@ function opslaanWijzigingen() {
         partner_id: document.getElementById('bewerk_partner_id').value
     };
 
-
-    // Hier moet je de data naar een server opslaan (of lokaal met FileSystem API)
-    // Voor dit voorbeeld laten we het even achterwege, omdat het complexer is
-    alert('Wijzigingen opgeslagen! (Let op: de data wordt niet permanent opgeslagen in deze demo)');
+    opslaanData(); // Sla de data op in localStorage
+    alert('Wijzigingen opgeslagen!');
     verversData();
 }
 
 //Laad initiele data (als ingelogd)
-//document.addEventListener('DOMContentLoaded', laadData);
+document.addEventListener('DOMContentLoaded', laadData);
