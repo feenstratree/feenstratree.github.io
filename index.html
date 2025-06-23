@@ -1,45 +1,97 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Family Tree</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    /* Custom scrollbar for webkit browsers */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1e293b; /* slate-800 */
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #475569; /* slate-600 */
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #64748b; /* slate-500 */
-    }
-  </style>
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.6.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Familie Boom</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-900 text-slate-100">
-  <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+<body>
+
+    <header>
+        <h1>Familie Boom</h1>
+    </header>
+
+    <div class="container">
+        <div class="login-section" id="loginSection">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="gebruikersnaam">Gebruikersnaam:</label>
+                <input type="text" id="gebruikersnaam" name="gebruikersnaam"><br><br>
+                <label for="wachtwoord">Wachtwoord:</label>
+                <input type="password" id="wachtwoord" name="wachtwoord"><br><br>
+                <button type="button" onclick="login()">Inloggen</button>
+                <button type="button" onclick="register()">Registreren</button>
+            </form>
+        </div>
+
+        <div class="tab-container" id="mainTabs" style="display:none;">
+            <div class="tabs">
+                <button class="tablink" onclick="openTab(event, 'Toevoegen')">Lid Toevoegen</button>
+                <button class="tablink" onclick="openTab(event, 'Bewerken')">Lid Bewerken</button>
+                <button class="tablink" onclick="openTab(event, 'Bekijken')">Alles Bekijken</button>
+            </div>
+
+            <div id="Toevoegen" class="tabcontent">
+                <h3>Lid Toevoegen</h3>
+                <form id="toevoegForm">
+                    <label for="lid_id">Lid ID (uniek):</label>
+                    <input type="text" id="lid_id" name="lid_id"><br><br>
+                    <label for="voornaam">Voornaam:</label>
+                    <input type="text" id="voornaam" name="voornaam"><br><br>
+                    <label for="achternaam">Achternaam:</label>
+                    <input type="text" id="achternaam" name="achternaam"><br><br>
+                    <label for="geboortedatum">Geboortedatum (DD-MM-YYYY):</label>
+                    <input type="text" id="geboortedatum" name="geboortedatum"><br><br>
+                    <label for="geslacht">Geslacht (Man/Vrouw/Anders):</label>
+                    <input type="text" id="geslacht" name="geslacht"><br><br>
+                    <label for="ouder1_id">Ouder 1 ID:</label>
+                    <input type="text" id="ouder1_id" name="ouder1_id"><br><br>
+                    <label for="ouder2_id">Ouder 2 ID:</label>
+                    <input type="text" id="ouder2_id" name="ouder2_id"><br><br>
+                    <label for="partner_id">Partner ID:</label>
+                    <input type="text" id="partner_id" name="partner_id"><br><br>
+                    <button type="button" onclick="toevoegenLid()">Toevoegen</button>
+                </form>
+            </div>
+
+            <div id="Bewerken" class="tabcontent">
+                <h3>Lid Bewerken</h3>
+                 <label for="bewerk_lid_id">Lid ID om te bewerken:</label>
+                <input type="text" id="bewerk_lid_id" name="bewerk_lid_id">
+                <button type="button" onclick="laadLidData()">Laad Data</button><br><br>
+
+                <label for="bewerk_voornaam">Voornaam:</label>
+                <input type="text" id="bewerk_voornaam" name="bewerk_voornaam"><br><br>
+                <label for="bewerk_achternaam">Achternaam:</label>
+                <input type="text" id="bewerk_achternaam" name="bewerk_achternaam"><br><br>
+                <label for="bewerk_geboortedatum">Geboortedatum (DD-MM-YYYY):</label>
+                <input type="text" id="bewerk_geboortedatum" name="bewerk_geboortedatum"><br><br>
+                <label for="bewerk_geslacht">Geslacht (Man/Vrouw/Anders):</label>
+                <input type="text" id="bewerk_geslacht" name="bewerk_geslacht"><br><br>
+                <label for="bewerk_ouder1_id">Ouder 1 ID:</label>
+                <input type="text" id="bewerk_ouder1_id" name="bewerk_ouder1_id"><br><br>
+                <label for="bewerk_ouder2_id">Ouder 2 ID:</label>
+                <input type="text" id="bewerk_ouder2_id" name="bewerk_ouder2_id"><br><br>
+                <label for="bewerk_partner_id">Partner ID:</label>
+                <input type="text" id="bewerk_partner_id" name="bewerk_partner_id"><br><br>
+                <button type="button" onclick="opslaanWijzigingen()">Opslaan</button>
+            </div>
+
+            <div id="Bekijken" class="tabcontent">
+                <h3>Alles Bekijken</h3>
+                <button onclick="verversData()">Vernieuwen</button>
+                <div id="dataContainer">
+                    <!-- Data wordt hier ingeladen met JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Familie Boom</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
