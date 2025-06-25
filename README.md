@@ -1,14 +1,21 @@
-# Run and deploy your AI Studio app
 
-This contains everything you need to run your app locally.
-
-## Run Locally
-
-**Prerequisites:**  Node.js
+<a href="https://youtu.be/moRqo158NGc?si=DAIbiOkKnHknEQVJ" target="_blank">
+  <img src="thumbnail.png" alt="Thumbnail"/>
+</a>
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+## Introduction: 
+
+#### 🎥 Create the Ultimate Portfolio Website with Just HTML,CSS and JavaSctipt! 💻
+
+#### Want to design a stunning portfolio website that’s responsive, modern, and minimalist? In this step-by-step tutorial, we’ll use only HTML and CSS to craft a visually appealing site that highlights your skills, projects, and creativity. 🌟
+
+#### From building the perfect navbar and styling a sleek header to creating a gallery for your work and adding smooth animations and hover effects, this video covers it all! Whether you’re a beginner or looking to sharpen your design skills, we’ll help you master flexbox, grid, and media queries for a truly responsive layout.
+
+
+---
+## Watch the full tutorial on YouTub
+<a href="https://youtu.be/moRqo158NGc?si=DAIbiOkKnHknEQVJ">
+  <img src="youtube.png" alt="youtube"/>
+</a>
